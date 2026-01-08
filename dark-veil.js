@@ -9,12 +9,7 @@ const fragment = `
 #ifdef GL_ES
 precision lowp float;
 #endif
-uniform vec2 uResolution;
-uniform float uTime;
-uniform vec3 uColor; /* Changed from uHueShift to explicit Color */
-uniform float uNoise;
-uniform float uScan;
-uniform float uScanFreq;
+uniform vec2 uMouse; /* Added mouse uniform */
 uniform float uWarp;
 #define iTime uTime
 #define iResolution uResolution
@@ -33,14 +28,21 @@ vec4 cppn_fn(vec2 coordinate,float in0,float in1,float in2){
     buf[0]=sigmoid(buf[0]);buf[1]=sigmoid(buf[1]);
     buf[2]=mat4(vec4(-15.2,8.0,-2.4,-1.9),vec4(-5.9,4.3,2.6,1.2),vec4(-7.3,6.7,5.2,5.9),vec4(5.0,8.9,-1.7,-1.1))*buf[6]+vec4(-4.1,-3.2,-4.5,-3.6);
     buf[2]=sigmoid(buf[2]);
-    /* Reduced depth for performance and smoother gradients */
     return vec4(buf[0].x, buf[1].y, buf[2].z, 1.0);
 }
 
 void mainImage(out vec4 fragColor,in vec2 fragCoord){
     vec2 uv=fragCoord/uResolution.xy*2.-1.;
     uv.y*=-1.;
-    uv+=uWarp*vec2(sin(uv.y*6.28+uTime*0.5),cos(uv.x*6.28+uTime*0.5))*0.05;
+    
+    /* Interactive Warp: Distort UV based on mouse position */
+    vec2 mouse = uMouse / uResolution.xy * 2.0 - 1.0;
+    float dist = length(uv - mouse);
+    // Warp influence decreases with distance from mouse
+    float mouseWarp = 0.3 * exp(-dist * 2.0); 
+    
+    uv += (uWarp + mouseWarp) * vec2(sin(uv.y*6.28+uTime*0.5),cos(uv.x*6.28+uTime*0.5))*0.05;
+    
     fragColor=cppn_fn(uv,0.1*sin(0.3*uTime),0.1*sin(0.69*uTime),0.1*sin(0.44*uTime));
 }
 
@@ -57,9 +59,13 @@ void main(){
     /* Add Noise */
     intensity += (rand(gl_FragCoord.xy+uTime)-0.5)*uNoise;
     
-    /* Tint with the explicit uColor */
-    /* Multiplying intensity by color gives a colored version of the pattern */
-    vec3 finalColor = vec3(intensity) * uColor * 1.8; /* 1.8 boost for brightness */
+    /* Dynamic Color Mixing */
+    /* Mix base dark color with a lighter, cyan-tinted highlight */
+    /* This ensures visibility even if the user picks a dark base color */
+    vec3 baseCol = uColor;
+    vec3 highlightCol = uColor + vec3(0.2, 0.4, 0.6); // Determine highlight offset
+    
+    vec3 finalColor = mix(baseCol, highlightCol, intensity * 1.5); // Boost intensity range
     
     gl_FragColor=vec4(clamp(finalColor,0.0,1.0),1.0);
 }
@@ -75,7 +81,7 @@ function hexToRgb(hex) {
 }
 
 export function initDarkVeil(containerId, {
-    baseColor = '#191970', // Default requested Blue
+    baseColor = '#191970',
     noiseIntensity = 0.05,
     scanlineIntensity = 0,
     speed = 0.5,
@@ -94,14 +100,13 @@ export function initDarkVeil(containerId, {
         height: '100%',
         display: 'block'
     });
-    // Clear parent and append canvas
     parent.innerHTML = '';
     parent.appendChild(canvas);
 
     const renderer = new Renderer({
         dpr: Math.min(window.devicePixelRatio, 2),
         canvas,
-        alpha: true // Allow transparency
+        alpha: true
     });
 
     const gl = renderer.gl;
@@ -115,7 +120,8 @@ export function initDarkVeil(containerId, {
         uniforms: {
             uTime: { value: 0 },
             uResolution: { value: new Vec2() },
-            uColor: { value: new Float32Array(rgbColor) }, // Pass RGB vector
+            uMouse: { value: new Vec2(0.5, 0.5) }, // Initialize mouse center
+            uColor: { value: new Float32Array(rgbColor) },
             uNoise: { value: noiseIntensity },
             uScan: { value: scanlineIntensity },
             uScanFreq: { value: scanlineFrequency },
@@ -132,7 +138,16 @@ export function initDarkVeil(containerId, {
         program.uniforms.uResolution.value.set(w, h);
     };
 
+    /* Mouse Tracking */
+    const updateMouse = (e) => {
+        const x = e.clientX;
+        // Flip Y for GL coords
+        const y = parent.clientHeight - e.clientY;
+        program.uniforms.uMouse.value.set(x, y);
+    };
+
     window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', updateMouse); // Listen for mouse
     resize();
 
     const start = performance.now();
@@ -149,5 +164,6 @@ export function initDarkVeil(containerId, {
     return () => {
         cancelAnimationFrame(frame);
         window.removeEventListener('resize', resize);
+        window.removeEventListener('mousemove', updateMouse);
     };
 }
