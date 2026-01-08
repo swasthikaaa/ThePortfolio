@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swasthika Lingaraj | Portfolio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="blob"></div>
+    <div class="blob" style="animation-delay: -5s; left: 60%; background: var(--secondary);"></div>
+    <div class="grid-overlay"></div>
+
+    <div id="dark-veil-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <div class="nav-links">
+                <a href="#hero">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <p>Hello, I'm</p>
+                <h1>Swasthika <span>Lingaraj</span></h1>
+                <p>A passionate Software Quality Assurance Engineer (Intern) and Aspiring Developer dedicated to
+                    building and testing seamless digital experiences.</p>
+                <div class="hero-btns">
+                    <a href="assets/CV_Swasthika_Lingaraj.pdf" class="btn" download>
+                        <i class="fas fa-download"></i> Download CV
+                    </a>
+                    <a href="#projects" class="btn"
+                        style="background: transparent; border: 1px solid var(--primary); margin-left: 1rem;">
+                        View My Work
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/profile.jpg" alt="Swasthika Lingaraj">
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="section-title">
+                <h2>About Me</h2>
+            </div>
+            <div class="about-content" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.1rem; color: var(--text-secondary);">
+                    I am currently a BSc (Hons) Computer Science student at Asia Pacific Institute of Technology and a
+                    Software Quality Assurance Engineer Intern at Ideazone (Pvt) Ltd. I specialize in manual and
+                    automated testing, with a strong foundation in modern web development technologies.
+                </p>
+                <div class="education"
+                    style="margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="edu-card skill-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Education</h3>
+                        <p>BSc (Hons) Computer Science</p>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">APIIT - Kandy (2024 - Present)</p>
+                    </div>
+                    <div class="edu-card skill-card">
+                        <i class="fas fa-briefcase"></i>
+                        <h3>Experience</h3>
+                        <p>SQA Engineer Intern</p>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Ideazone (Pvt) Ltd (2025 - Present)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="section-title">
+                <h2>Technical Skills</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fab fa-html5"></i>
+                    <p>HTML5</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-css3-alt"></i>
+                    <p>CSS3</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-php"></i>
+                    <p>PHP (Laravel)</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-react"></i>
+                    <p>React</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-leaf"></i>
+                    <p>MongoDB</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-server"></i>
+                    <p>Express.js</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-node-js"></i>
+                    <p>Node.js</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-vial"></i>
+                    <p>Selenium</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-robot"></i>
+                    <p>Playwright</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-docker"></i>
+                    <p>Docker</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-git-alt"></i>
+                    <p>Git / Github</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-aws"></i>
+                    <p>AWS</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-title">
+            <h2>Featured Projects</h2>
+            <div class="underline" style="display: none;"></div>
+        </div>
+        <div class="projects-grid">
+            <!-- Project 1 (Large Bento) -->
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>Vantage POS</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">A comprehensive enterprise retail
+                        management system designed for high-volume transactions. Features include real-time inventory
+                        tracking, multi-user role management, dynamic sales analytics dashboard, and seamless receipt
+                        generation using the MERN stack and Socket.io for instant updates.</p>
+                    <div class="project-tags" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                        <span>MERN Stack</span>
+                        <span>Tailwind</span>
+                        <span>Socket.io</span>
+                    </div>
+                    <div class="project-links" style="margin-top: 2rem;">
+                        <a href="#" class="btn btn-sm">View Project</a>
+                        <a href="https://github.com/swasthikaaa/VantagePOS" class="btn btn-sm"
+                            style="background: transparent; border: 1px solid var(--primary);">View Code</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Project 2 (Wide Bento) -->
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>Lumiere Cosmetic</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">A premium e-commerce platform tailored
+                        for luxury beauty brands. Implements advanced filtering, secure stripe payment integration, user
+                        wishlists, and a high-performance responsive UI built with Tailwind CSS to ensure a seamless
+                        shopping experience across all devices.</p>
+                    <div class="project-tags" style="display: flex; gap: 0.8rem;">
+                        <span>MERN Stack</span>
+                        <span>Tailwind</span>
+                    </div>
+                    <div class="project-links" style="margin-top: 1.5rem;">
+                        <a href="#" class="btn btn-sm">View Project</a>
+                        <a href="https://github.com/swasthikaaa/Lumiere" class="btn btn-sm"
+                            style="background: transparent; border: 1px solid var(--primary);">View Code</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Project 3 (Small Bento) -->
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>Freshmart</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">A modern grocery logistics interface
+                        focused on speed and accessibility. Features a clean, intuitive layout for browsing categories,
+                        managing cart contents, and an optimized checkout flow, demonstrating mastery of semantic HTML5
+                        and modern CSS3 layout techniques.</p>
+                    <div class="project-tags" style="display: flex; gap: 0.8rem;">
+                        <span>HTML/CSS</span>
+                    </div>
+                    <div class="project-links" style="margin-top: 1.5rem;">
+                        <a href="#" class="btn btn-sm">View Project</a>
+                        <a href="#" class="btn btn-sm"
+                            style="background: transparent; border: 1px solid var(--primary);">View Code</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Project 4 (Small Bento) -->
+            <div class="project-card">
+                <div class="project-info">
+                    <h3>AWS Architecture</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Designed and documented a scalable,
+                        high-availability cloud infrastructure for Digiworks. Utilizes AWS core services including EC2,
+                        S3, and RDS to ensure security, fault tolerance, and cost-optimized performance for enterprise
+                        applications.</p>
+                    <div class="project-tags" style="display: flex; gap: 0.8rem;">
+                        <span>Cloud</span>
+                    </div>
+                    <div class="project-links" style="margin-top: 1.5rem;">
+                        <a href="#" class="btn btn-sm">View Project</a>
+                        <a href="#" class="btn btn-sm"
+                            style="background: transparent; border: 1px solid var(--primary);">View Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+        </div>
+        </section>
+
+        <section id="certifications">
+            <div class="section-title">
+                <h2>Certifications</h2>
+            </div>
+            <div class="skills-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div class="skill-card">
+                    <i class="fab fa-aws"></i>
+                    <h3>AWS Fundamentals</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">LinkedIn Learning</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-microsoft"></i>
+                    <h3>Azure Fundamentals</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Microsoft</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Business Analysis & Process Management</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Coursera</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-github"></i>
+                    <h3>Learning GitHub</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">LinkedIn Learning</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-dharmachakra"></i>
+                    <h3>Kubernetes</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary);">LinkedIn Learning</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+            </div>
+            <div class="contact-container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h3>Let's build something together!</h3>
+                    <p style="color: var(--text-secondary);">Feel free to reach out for collaborations or just a
+                        friendly hello.</p>
+                </div>
+                <div class="social-links">
+                    <a href="mailto:swasthikalingaraj@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://linkedin.com/in/swasthika-lingaraj" target="_blank" title="LinkedIn"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="tel:+94772628745" title="Phone"><i class="fas fa-phone"></i></a>
+                    <a href="#" title="Github"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer
+        style="text-align: center; padding: 2rem; border-top: 1px solid var(--glass-border); color: var(--text-secondary);">
+        <p>&copy; 2026 Swasthika Lingaraj. All Rights Reserved.</p>
+        <!-- Main Script -->
+        <script src="script.js"></script>
+        <!-- Dark Veil Background -->
+        <script type="module">
+            import { initDarkVeil } from './dark-veil.js';
+
+            initDarkVeil('dark-veil-container', {
+                speed: 0.2, // Slow movement
+                noiseIntensity: 0.05,
+                scanlineIntensity: 0,
+                hueShift: 220, // Blue-ish hue
+                warpAmount: 0.5
+            });
+        </script>
+</body>
+
+</html>
