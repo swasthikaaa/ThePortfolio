@@ -459,58 +459,87 @@ section {
     }
 
     /* Mobile Bottom Navigation */
+    nav {
+        /* Reset desktop pill styles */
+        background: transparent;
+        border: none;
+        backdrop-filter: none;
+        pointer-events: none;
+        /* Let clicks pass through invisible container */
+        top: auto;
+        bottom: 0;
+        padding: 0;
+        width: 100%;
+        left: 0;
+        transform: none;
+    }
+
+    .nav-content {
+        width: 100%;
+    }
+
     .nav-links {
         display: flex;
-        /* Keep flex */
         position: fixed;
-        bottom: 2rem;
+        bottom: 1.5rem;
+        /* Lower it slightly */
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(15, 23, 42, 0.9);
-        /* Dark background */
+        background: rgba(15, 23, 42, 0.95);
+        /* More opaque */
         backdrop-filter: blur(16px);
-        padding: 0.8rem 1.5rem;
+        padding: 0.6rem 1.2rem;
+        /* Compact padding */
         border-radius: 50px;
         border: 1px solid var(--glass-border);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        width: 90%;
-        max-width: 400px;
-        justify-content: space-around;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        width: auto;
+        /* Auto width to fit content */
+        min-width: 300px;
+        max-width: 95%;
+        justify-content: space-evenly;
+        /* Even spacing */
         z-index: 1000;
         top: auto;
-        /* Reset top */
+        pointer-events: auto;
+        /* Re-enable clicks */
     }
 
     .nav-links a {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        /* Smaller text */
         padding: 0.5rem;
+        white-space: nowrap;
     }
 
-    /* Project Grid Mobile */
-    .projects-grid {
-        grid-template-columns: 1fr;
-        /* Force 1 column */
-        gap: 2rem;
-    }
+    /* Reset top */
+}
 
-    .project-card {
-        min-height: auto;
-        /* Let content dictate height */
-    }
+/* Project Grid Mobile */
+.projects-grid {
+    grid-template-columns: 1fr;
+    /* Force 1 column */
+    gap: 2rem;
+}
 
-    .project-preview {
-        height: 180px;
-    }
+.project-card {
+    min-height: auto;
+    /* Let content dictate height */
+}
 
-    /* Skills Grid Mobile */
-    .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.project-preview {
+    height: 180px;
+}
 
-    /* Adjust Section Padding */
-    section {
-        padding: 4rem 6%;
-    }
+/* Skills Grid Mobile */
+.skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Adjust Section Padding */
+section {
+    padding: 4rem 6%;
+}
 }
 
 /* Small mobile tweak */
