@@ -513,33 +513,32 @@ section {
     }
 
     /* Reset top */
-}
 
-/* Project Grid Mobile */
-.projects-grid {
-    grid-template-columns: 1fr;
-    /* Force 1 column */
-    gap: 2rem;
-}
+    /* Project Grid Mobile */
+    .projects-grid {
+        grid-template-columns: 1fr;
+        /* Force 1 column */
+        gap: 2rem;
+    }
 
-.project-card {
-    min-height: auto;
-    /* Let content dictate height */
-}
+    .project-card {
+        min-height: auto;
+        /* Let content dictate height */
+    }
 
-.project-preview {
-    height: 180px;
-}
+    .project-preview {
+        height: 180px;
+    }
 
-/* Skills Grid Mobile */
-.skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-}
+    /* Skills Grid Mobile */
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-/* Adjust Section Padding */
-section {
-    padding: 4rem 6%;
-}
+    /* Adjust Section Padding */
+    section {
+        padding: 4rem 6%;
+    }
 }
 
 /* Small mobile tweak */
