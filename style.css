@@ -585,6 +585,7 @@ section {
         grid-template-columns: 1fr;
         /* Force 1 column */
         gap: 2rem;
+        padding: 0 1rem;
     }
 
     .project-card {
