@@ -97,6 +97,66 @@ nav {
     color: var(--primary);
 }
 
+/* Hamburger Menu Button */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 2000;
+    position: fixed;
+    top: 30px;
+    right: 5%;
+}
+
+.hamburger-line {
+    width: 100%;
+    height: 3px;
+    background: var(--text-primary);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+    transform: translateY(10.5px) rotate(45deg);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+    transform: translateY(-10.5px) rotate(-45deg);
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 /* Hero Section */
 .hero {
     height: 100vh;
@@ -458,61 +518,67 @@ section {
         margin-bottom: 1rem;
     }
 
-    /* Mobile Bottom Navigation */
+    /* Show Hamburger Menu on Mobile */
+    .hamburger {
+        display: flex;
+    }
+
+    .mobile-menu-overlay {
+        display: block;
+    }
+
+    /* Hide Desktop Navigation Pill */
     nav {
-        /* Reset desktop pill styles */
         background: transparent;
         border: none;
         backdrop-filter: none;
-        pointer-events: none;
-        /* Let clicks pass through invisible container */
-        top: auto;
-        bottom: 0;
         padding: 0;
         width: 100%;
         left: 0;
+        top: 0;
         transform: none;
     }
 
     .nav-content {
-        width: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid var(--glass-border);
+        z-index: 1500;
+        transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        padding-top: 80px;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-content.active {
+        right: 0;
     }
 
     .nav-links {
         display: flex;
-        position: fixed;
-        bottom: 1.5rem;
-        /* Lower it slightly */
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(15, 23, 42, 0.95);
-        /* More opaque */
-        backdrop-filter: blur(16px);
-        padding: 0.6rem 1.2rem;
-        /* Compact padding */
-        border-radius: 50px;
-        border: 1px solid var(--glass-border);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        width: auto;
-        /* Auto width to fit content */
-        min-width: 300px;
-        max-width: 95%;
-        justify-content: space-evenly;
-        /* Even spacing */
-        z-index: 1000;
-        top: auto;
-        pointer-events: auto;
-        /* Re-enable clicks */
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
+        width: 100%;
     }
 
     .nav-links a {
-        font-size: 0.85rem;
-        /* Smaller text */
-        padding: 0.5rem;
-        white-space: nowrap;
+        padding: 1.2rem 2rem;
+        font-size: 1.1rem;
+        border-bottom: 1px solid var(--glass-border);
+        transition: all 0.3s ease;
+        width: 100%;
+        text-align: left;
     }
 
-    /* Reset top */
+    .nav-links a:hover {
+        background: rgba(59, 130, 246, 0.1);
+        padding-left: 2.5rem;
+    }
 
     /* Project Grid Mobile */
     .projects-grid {
@@ -543,12 +609,17 @@ section {
 
 /* Small mobile tweak */
 @media (max-width: 480px) {
-    .nav-links {
-        padding: 0.6rem 1rem;
-        bottom: 1rem;
+    .hamburger {
+        right: 6%;
+    }
+
+    .nav-content {
+        width: 85%;
+        max-width: 280px;
     }
 
     .nav-links a {
-        font-size: 0.8rem;
+        font-size: 1rem;
+        padding: 1rem 1.5rem;
     }
 }

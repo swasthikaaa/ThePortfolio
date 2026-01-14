@@ -82,3 +82,59 @@ window.addEventListener('scroll', () => {
         nav.style.boxShadow = 'none';
     }
 });
+
+// Hamburger Menu Functionality
+const hamburger = document.querySelector('.hamburger');
+const navContent = document.querySelector('.nav-content');
+const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+const navLinks = document.querySelectorAll('.nav-links a');
+const body = document.body;
+
+// Toggle menu function
+function toggleMenu() {
+    hamburger.classList.toggle('active');
+    navContent.classList.toggle('active');
+    mobileMenuOverlay.classList.toggle('active');
+    
+    // Update aria-expanded for accessibility
+    const isExpanded = hamburger.classList.contains('active');
+    hamburger.setAttribute('aria-expanded', isExpanded);
+    
+    // Prevent body scroll when menu is open
+    if (isExpanded) {
+        body.style.overflow = 'hidden';
+    } else {
+        body.style.overflow = '';
+    }
+}
+
+// Close menu function
+function closeMenu() {
+    hamburger.classList.remove('active');
+    navContent.classList.remove('active');
+    mobileMenuOverlay.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+    body.style.overflow = '';
+}
+
+// Hamburger button click
+if (hamburger) {
+    hamburger.addEventListener('click', toggleMenu);
+}
+
+// Close menu when clicking on overlay
+if (mobileMenuOverlay) {
+    mobileMenuOverlay.addEventListener('click', closeMenu);
+}
+
+// Close menu when clicking on nav links
+navLinks.forEach(link => {
+    link.addEventListener('click', closeMenu);
+});
+
+// Close menu on window resize to desktop size
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) {
+        closeMenu();
+    }
+});
