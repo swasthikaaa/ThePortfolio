@@ -449,6 +449,14 @@ section {
     margin-bottom: 1rem !important;
 }
 
+.project-tags {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: auto;
+    margin-bottom: 1.5rem;
+}
+
 .project-tags span {
     font-size: 0.75rem;
     background: rgba(255, 255, 255, 0.03);
@@ -460,7 +468,6 @@ section {
 }
 
 .project-links {
-    margin-top: auto;
     display: flex;
     gap: 1rem;
 }
