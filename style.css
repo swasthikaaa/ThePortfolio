@@ -438,14 +438,7 @@ section {
 }
 
 .project-info p {
-    display: -webkit-box;
-    line-clamp: 4;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-height: calc(1.6em * 4);
-    /* Ensure empty space is filled if text is short */
+    line-height: 1.6;
     margin-bottom: 1rem !important;
 }
 
