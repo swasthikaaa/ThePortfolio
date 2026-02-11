@@ -1,4 +1,4 @@
-import { Renderer, Program, Mesh, Triangle, Vec2 } from 'https://esm.sh/ogl';
+import { Renderer, Program, Mesh, Triangle, Vec2 } from 'https://esm.sh/ogl@0.0.32';
 
 const vertex = `
 attribute vec2 position;
@@ -9,8 +9,15 @@ const fragment = `
 #ifdef GL_ES
 precision lowp float;
 #endif
-uniform vec2 uMouse; /* Added mouse uniform */
+uniform vec2 uMouse;
 uniform float uWarp;
+uniform float uTime;
+uniform vec2 uResolution;
+uniform vec3 uColor;
+uniform float uNoise;
+uniform float uScan;
+uniform float uScanFreq;
+
 #define iTime uTime
 #define iResolution uResolution
 
@@ -20,7 +27,6 @@ float rand(vec2 c){return fract(sin(dot(c,vec2(12.9898,78.233)))*43758.5453);}
 vec4 sigmoid(vec4 x){return 1./(1.+exp(-x));}
 
 vec4 cppn_fn(vec2 coordinate,float in0,float in1,float in2){
-    /* Simplified CPPN for stability */
     buf[6]=vec4(coordinate.x,coordinate.y,0.394+in0,0.36+in1);
     buf[7]=vec4(0.14+in2,sqrt(coordinate.x*coordinate.x+coordinate.y*coordinate.y),0.,0.);
     buf[0]=mat4(vec4(6.5,-3.6,0.7,-1.1),vec4(2.4,3.1,1.2,0.06),vec4(-5.4,-6.1,1.8,-4.7),vec4(6.0,-5.5,-0.9,3.2))*buf[6]+vec4(0.2,1.1,-1.8,5.0);
@@ -32,40 +38,28 @@ vec4 cppn_fn(vec2 coordinate,float in0,float in1,float in2){
 }
 
 void mainImage(out vec4 fragColor,in vec2 fragCoord){
-    vec2 uv=fragCoord/uResolution.xy*2.-1.;
+    vec2 uv=fragCoord/iResolution.xy*2.-1.;
     uv.y*=-1.;
     
-    /* Interactive Warp: Distort UV based on mouse position */
-    vec2 mouse = uMouse / uResolution.xy * 2.0 - 1.0;
+    vec2 mouse = uMouse / iResolution.xy * 2.0 - 1.0;
     float dist = length(uv - mouse);
-    // Warp influence decreases with distance from mouse
     float mouseWarp = 0.3 * exp(-dist * 2.0); 
     
-    uv += (uWarp + mouseWarp) * vec2(sin(uv.y*6.28+uTime*0.5),cos(uv.x*6.28+uTime*0.5))*0.05;
+    uv += (uWarp + mouseWarp) * vec2(sin(uv.y*6.28+iTime*0.5),cos(uv.x*6.28+iTime*0.5))*0.05;
     
-    fragColor=cppn_fn(uv,0.1*sin(0.3*uTime),0.1*sin(0.69*uTime),0.1*sin(0.44*uTime));
+    fragColor=cppn_fn(uv,0.1*sin(0.3*iTime),0.1*sin(0.69*iTime),0.1*sin(0.44*iTime));
 }
 
 void main(){
     vec4 col;mainImage(col,gl_FragCoord.xy);
-    
-    /* Convert organic pattern to grayscale intensity */
     float intensity = dot(col.rgb, vec3(0.299, 0.587, 0.114));
-    
-    /* Apply Scanlines */
     float scanline_val=sin(gl_FragCoord.y*uScanFreq)*0.5+0.5;
     intensity *= 1.-(scanline_val*scanline_val)*uScan;
-    
-    /* Add Noise */
     intensity += (rand(gl_FragCoord.xy+uTime)-0.5)*uNoise;
     
-    /* Dynamic Color Mixing */
-    /* Mix base dark color with a lighter, cyan-tinted highlight */
-    /* This ensures visibility even if the user picks a dark base color */
     vec3 baseCol = uColor;
-    vec3 highlightCol = uColor + vec3(0.2, 0.4, 0.6); // Determine highlight offset
-    
-    vec3 finalColor = mix(baseCol, highlightCol, intensity * 1.5); // Boost intensity range
+    vec3 highlightCol = uColor + vec3(0.2, 0.4, 0.6);
+    vec3 finalColor = mix(baseCol, highlightCol, intensity * 1.5);
     
     gl_FragColor=vec4(clamp(finalColor,0.0,1.0),1.0);
 }
@@ -92,7 +86,6 @@ export function initDarkVeil(containerId, {
     const parent = document.getElementById(containerId);
     if (!parent) return;
 
-    // Create canvas
     const canvas = document.createElement('canvas');
     canvas.className = 'darkveil-canvas';
     Object.assign(canvas.style, {
@@ -111,7 +104,6 @@ export function initDarkVeil(containerId, {
 
     const gl = renderer.gl;
     const geometry = new Triangle(gl);
-
     const rgbColor = hexToRgb(baseColor);
 
     const program = new Program(gl, {
@@ -120,7 +112,7 @@ export function initDarkVeil(containerId, {
         uniforms: {
             uTime: { value: 0 },
             uResolution: { value: new Vec2() },
-            uMouse: { value: new Vec2(0.5, 0.5) }, // Initialize mouse center
+            uMouse: { value: new Vec2(0.5, 0.5) },
             uColor: { value: new Float32Array(rgbColor) },
             uNoise: { value: noiseIntensity },
             uScan: { value: scanlineIntensity },
@@ -132,34 +124,37 @@ export function initDarkVeil(containerId, {
     const mesh = new Mesh(gl, { geometry, program });
 
     const resize = () => {
-        const w = parent.clientWidth;
-        const h = parent.clientHeight;
+        const w = parent.clientWidth || window.innerWidth;
+        const h = parent.clientHeight || window.innerHeight;
         renderer.setSize(w * resolutionScale, h * resolutionScale);
-        program.uniforms.uResolution.value.set(w, h);
+        if (program.uniforms.uResolution) {
+            program.uniforms.uResolution.value.set(w, h);
+        }
     };
 
-    /* Mouse Tracking */
     const updateMouse = (e) => {
+        if (!program.uniforms.uMouse) return;
         const x = e.clientX;
-        // Flip Y for GL coords
-        const y = parent.clientHeight - e.clientY;
+        const h = parent.clientHeight || window.innerHeight;
+        const y = h - e.clientY;
         program.uniforms.uMouse.value.set(x, y);
     };
 
     window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', updateMouse); // Listen for mouse
+    window.addEventListener('mousemove', updateMouse);
     resize();
 
     const start = performance.now();
     let frame;
 
-    const loop = () => {
-        program.uniforms.uTime.value = ((performance.now() - start) / 1000) * speed;
+    const loop = (t) => {
+        if (!mesh || !mesh.program) return;
+        program.uniforms.uTime.value = (t / 1000) * speed;
         renderer.render({ scene: mesh });
         frame = requestAnimationFrame(loop);
     };
 
-    loop();
+    frame = requestAnimationFrame(loop);
 
     return () => {
         cancelAnimationFrame(frame);
