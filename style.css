@@ -431,11 +431,22 @@ section {
 
 .project-info h3 {
     font-size: 1.25rem;
-    /* Reduced from 1.5rem */
     font-weight: 600;
     margin-bottom: 0.25rem;
     color: var(--text-primary);
     letter-spacing: -0.01em;
+}
+
+.project-info p {
+    display: -webkit-box;
+    line-clamp: 4;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: calc(1.6em * 4);
+    /* Ensure empty space is filled if text is short */
+    margin-bottom: 1rem !important;
 }
 
 .project-tags span {
