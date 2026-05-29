@@ -1,6 +1,6 @@
 const roles = [
     "Computer Science Student",
-    "Software Quality Assurance Trainee",
+    "Software Quality Assurance Intern",
     "Aspiring Developer",
     "Tech Enthusiast"
 ];
