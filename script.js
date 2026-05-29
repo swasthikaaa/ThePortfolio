@@ -1,9 +1,9 @@
 const roles = [
-    "SQA Engineer Intern",
+    "Computer Science Student",
+    "Software Quality Assurance Trainee",
     "Aspiring Developer",
     "Tech Enthusiast"
 ];
-
 const typewriterElement = document.getElementById('typewriter');
 let roleIndex = 0;
 let charIndex = 0;
@@ -95,11 +95,11 @@ function toggleMenu() {
     hamburger.classList.toggle('active');
     navContent.classList.toggle('active');
     mobileMenuOverlay.classList.toggle('active');
-    
+
     // Update aria-expanded for accessibility
     const isExpanded = hamburger.classList.contains('active');
     hamburger.setAttribute('aria-expanded', isExpanded);
-    
+
     // Prevent body scroll when menu is open
     if (isExpanded) {
         body.style.overflow = 'hidden';
